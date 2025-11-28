@@ -20,9 +20,3 @@ dependencyResolutionManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-
-// Platform-specific subprojects for cross-platform builds
-include(":windows")
-include(":linux")
-include(":macos")
-include(":all")

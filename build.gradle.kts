@@ -48,4 +48,34 @@ kotlin {
     jvmToolchain(17)
 }
 
-// Platform-specific subprojects are defined in settings.gradle.kts
+// Unified distribution task - creates distribution for current OS
+tasks.register("dist") {
+    group = "distribution"
+    description = "Create distribution package for the current platform"
+    dependsOn("packageDistributionForCurrentOS")
+}
+
+// Cross-platform build tasks (packaging requires matching OS)
+tasks.register("windows") {
+    group = "cross-platform"
+    description = "Build Windows distribution (requires Windows OS)"
+    finalizedBy("packageMsi")
+}
+
+tasks.register("linux") {
+    group = "cross-platform"
+    description = "Build Linux distribution (requires Linux OS)"
+    finalizedBy("packageDeb")
+}
+
+tasks.register("macos") {
+    group = "cross-platform"
+    description = "Build macOS distribution (requires macOS)"
+    finalizedBy("packageDmg")
+}
+
+tasks.register("all") {
+    group = "cross-platform"
+    description = "Build all platform distributions (requires respective OS for each format)"
+    finalizedBy("packageMsi", "packageDeb", "packageDmg")
+}

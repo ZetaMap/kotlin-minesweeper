@@ -1,19 +1,93 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm") version "1.9.21"
+    kotlin("multiplatform") version "1.9.21"
     id("org.jetbrains.compose") version "1.5.11"
+    // For Android support, add: id("com.android.application") version "8.2.0"
+    // Requires Android SDK to be installed and ANDROID_HOME environment variable set
 }
 
 group = "com.minesweeper"
 version = "1.0.0"
 
-dependencies {
-    implementation(compose.desktop.currentOs)
-    implementation(compose.material3)
+kotlin {
+    // Android target - uncomment when building with Android SDK:
+    // androidTarget {
+    //     compilations.all {
+    //         kotlinOptions {
+    //             jvmTarget = "17"
+    //         }
+    //     }
+    // }
     
-    testImplementation(kotlin("test"))
+    jvm("desktop") {
+        jvmToolchain(17)
+    }
+    
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+            }
+        }
+        
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+        
+        // Android dependencies - uncomment when building with Android SDK:
+        // val androidMain by getting {
+        //     dependencies {
+        //         implementation("androidx.activity:activity-compose:1.8.1")
+        //         implementation("androidx.core:core-ktx:1.12.0")
+        //     }
+        // }
+        
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+        
+        val desktopTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+    }
 }
+
+// Android configuration - uncomment when building with Android SDK:
+// android {
+//     namespace = "com.minesweeper"
+//     compileSdk = 34
+//     
+//     defaultConfig {
+//         applicationId = "com.minesweeper"
+//         minSdk = 24
+//         targetSdk = 34
+//         versionCode = 1
+//         versionName = "1.0.0"
+//     }
+//     
+//     compileOptions {
+//         sourceCompatibility = JavaVersion.VERSION_17
+//         targetCompatibility = JavaVersion.VERSION_17
+//     }
+//     
+//     buildFeatures {
+//         compose = true
+//     }
+//     
+//     composeOptions {
+//         kotlinCompilerExtensionVersion = "1.5.4"
+//     }
+// }
 
 compose.desktop {
     application {
@@ -38,14 +112,6 @@ compose.desktop {
             }
         }
     }
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-kotlin {
-    jvmToolchain(17)
 }
 
 // Unified distribution task - creates distribution for current OS
@@ -78,4 +144,16 @@ tasks.register("all") {
     group = "cross-platform"
     description = "Build all platform distributions (requires respective OS for each format)"
     finalizedBy("packageMsi", "packageDeb", "packageDmg")
+}
+
+// Android build task (requires Android SDK)
+tasks.register("android") {
+    group = "cross-platform"
+    description = "Build Android APK (requires Android SDK - see README for setup)"
+    doLast {
+        println("To build for Android:")
+        println("1. Install Android SDK and set ANDROID_HOME environment variable")
+        println("2. Uncomment Android plugin and configuration in build.gradle.kts")
+        println("3. Run: ./gradlew assembleDebug")
+    }
 }

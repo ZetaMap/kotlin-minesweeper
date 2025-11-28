@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.sp
 import minesweeper.model.Cell
 
 /**
- * A single cell in the Minesweeper grid with animations.
+ * A single cell in the Minesweeper grid with animations - Desktop version with mouse support.
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun CellView(
+actual fun CellView(
     cell: Cell,
     isRevealing: Boolean,
     isFlagAnimating: Boolean,

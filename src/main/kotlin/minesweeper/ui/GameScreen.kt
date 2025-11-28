@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import minesweeper.game.GameManager
 import minesweeper.model.Difficulty
 import minesweeper.model.GameState
+import kotlin.random.Random
 
 /**
  * Main game screen containing all game elements.
@@ -173,7 +174,7 @@ private fun LoseMessage() {
     LaunchedEffect(Unit) {
         while (true) {
             delay(100)
-            offset = (Math.random() * 4 - 2).toFloat()
+            offset = Random.nextDouble(-2.0, 2.0).toFloat()
         }
     }
     

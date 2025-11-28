@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -170,7 +171,6 @@ fun StatusPanel(
         // Face button
         FaceButton(
             emoji = faceEmoji,
-            isGameOver = board.gameState == GameState.WON || board.gameState == GameState.LOST,
             scale = if (board.gameState == GameState.WON) faceScale else 1f,
             onClick = onNewGame
         )
@@ -183,7 +183,6 @@ fun StatusPanel(
 @Composable
 private fun FaceButton(
     emoji: String,
-    @Suppress("UNUSED_PARAMETER") isGameOver: Boolean,
     scale: Float,
     onClick: () -> Unit
 ) {
@@ -202,11 +201,4 @@ private fun FaceButton(
             }
         )
     }
-}
-
-@Composable
-private fun Modifier.graphicsLayer(block: androidx.compose.ui.graphics.GraphicsLayerScope.() -> Unit): Modifier {
-    return this.then(
-        Modifier.graphicsLayer(block)
-    )
 }

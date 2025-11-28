@@ -5,6 +5,7 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -37,8 +38,8 @@ fun CellView(
     onRightClick: () -> Unit,
     onDoubleClick: () -> Unit
 ) {
-    var isHovered by remember { mutableStateOf(false) }
-    var isPressed by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered by interactionSource.collectIsHoveredAsState()
     
     // Reveal animation
     val revealScale by animateFloatAsState(
@@ -88,8 +89,7 @@ fun CellView(
             cell.isRevealed && cell.isMine && isExploding -> explosionColor
             cell.isRevealed && cell.isMine -> MinesweeperTheme.cellMine
             cell.isRevealed -> MinesweeperTheme.cellRevealed
-            isPressed -> MinesweeperTheme.cellUnrevealedHover.copy(alpha = 0.7f)
-            isHovered -> MinesweeperTheme.cellUnrevealedHover
+            isHovered && !cell.isRevealed -> MinesweeperTheme.cellUnrevealedHover
             else -> MinesweeperTheme.cellUnrevealed
         },
         animationSpec = tween(150),
@@ -117,9 +117,7 @@ fun CellView(
                 color = if (cell.isRevealed) MinesweeperTheme.cellRevealedBorder else MinesweeperTheme.cellBorderDark,
                 shape = RoundedCornerShape(4.dp)
             )
-            .hoverable(
-                interactionSource = remember { MutableInteractionSource() }
-            )
+            .hoverable(interactionSource = interactionSource)
             .pointerInput(cell.isRevealed, cell.isFlagged) {
                 detectTapGestures(
                     onTap = { 
@@ -136,8 +134,7 @@ fun CellView(
                 if (!cell.isRevealed) {
                     onRightClick()
                 }
-            }
-            .onHover { isHovered = it },
+            },
         contentAlignment = Alignment.Center
     ) {
         when {
@@ -162,18 +159,6 @@ fun CellView(
                     fontWeight = FontWeight.Bold,
                     color = MinesweeperTheme.numberColors[cell.adjacentMines] ?: Color.Black
                 )
-            }
-        }
-    }
-}
-
-@Composable
-private fun Modifier.onHover(onHover: (Boolean) -> Unit): Modifier {
-    return this.pointerInput(Unit) {
-        awaitPointerEventScope {
-            while (true) {
-                val event = awaitPointerEvent()
-                onHover(event.changes.any { it.pressed.not() && it.previousPressed.not() })
             }
         }
     }

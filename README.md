@@ -15,28 +15,74 @@ Minesweeper... in Kotlin... using Compose... with cool animations. =)
 - 🛡️ First-click safety (first click never reveals a mine)
 - ⏱️ Timer and mine counter with LED-style digital display
 - 🖱️ Full mouse support (left-click to reveal, right-click to flag, double-click to chord)
+- 🖥️ Cross-platform support (Windows, Linux, macOS)
 
 ## Requirements
 
 - JDK 17 or higher
-- Gradle 8.5+
+- Gradle 8.14+
 
 ## Building
 
+### Local Platform (default)
 ```bash
 ./gradlew build
+```
+
+### Specific Platform
+```bash
+# Build for Windows
+./gradlew :windows:build
+
+# Build for Linux
+./gradlew :linux:build
+
+# Build for macOS
+./gradlew :macos:build
+```
+
+### All Platforms
+```bash
+./gradlew :all:build
 ```
 
 ## Running
 
 ```bash
+# Run on current platform
 ./gradlew run
+
+# Run specific platform (requires matching OS)
+./gradlew :linux:run
+./gradlew :windows:run
+./gradlew :macos:run
 ```
 
 ## Testing
 
 ```bash
+# Test on current platform
 ./gradlew test
+
+# Test specific platform
+./gradlew :linux:test
+./gradlew :windows:test
+./gradlew :macos:test
+
+# Test all platforms
+./gradlew :all:testAll
+```
+
+## Creating Distributions
+
+```bash
+# Create native distributions for current platform
+./gradlew packageDistributionForCurrentOS
+
+# Create specific distributions
+./gradlew :windows:packageMsi    # Windows MSI installer
+./gradlew :linux:packageDeb      # Linux DEB package
+./gradlew :macos:packageDmg      # macOS DMG image
 ```
 
 ## How to Play
@@ -50,18 +96,15 @@ Minesweeper... in Kotlin... using Compose... with cool animations. =)
 ## Project Structure
 
 ```
-src/main/kotlin/minesweeper/
-├── Main.kt              # Application entry point
-├── model/
-│   ├── Cell.kt          # Cell data class and enums
-│   └── Board.kt         # Game board logic
-├── game/
-│   └── GameManager.kt   # Game state management
-└── ui/
-    ├── Theme.kt         # Color definitions
-    ├── CellView.kt      # Individual cell component
-    ├── BoardView.kt     # Game board and status panel
-    └── GameScreen.kt    # Main game screen
+├── src/main/kotlin/minesweeper/    # Main source code
+│   ├── Main.kt                     # Application entry point
+│   ├── model/                      # Game data models
+│   ├── game/                       # Game state management
+│   └── ui/                         # Compose UI components
+├── windows/                        # Windows-specific build config
+├── linux/                          # Linux-specific build config
+├── macos/                          # macOS-specific build config
+└── all/                            # Aggregator for all platforms
 ```
 
 ## License

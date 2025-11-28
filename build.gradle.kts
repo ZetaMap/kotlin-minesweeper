@@ -23,6 +23,19 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "kotlin-minesweeper"
             packageVersion = "1.0.0"
+            
+            windows {
+                menuGroup = "Minesweeper"
+                upgradeUuid = "bb981d78-9f73-4578-89a6-4a83197d07e6"
+            }
+            
+            linux {
+                menuGroup = "Games"
+            }
+            
+            macOS {
+                bundleID = "com.minesweeper.app"
+            }
         }
     }
 }
@@ -34,3 +47,5 @@ tasks.test {
 kotlin {
     jvmToolchain(17)
 }
+
+// Platform-specific subprojects are defined in settings.gradle.kts

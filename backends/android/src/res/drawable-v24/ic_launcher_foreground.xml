@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Bomb body -->
+    <path
+        android:fillColor="#2D2D44"
+        android:pathData="M54,60m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0"/>
+    <!-- Bomb fuse holder -->
+    <path
+        android:fillColor="#4A90D9"
+        android:pathData="M50,36l8,0l0,8l-8,0z"/>
+    <!-- Bomb fuse -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M54,28l2,0l0,10l-2,0z"
+        android:strokeWidth="1"
+        android:strokeColor="#FF5722"/>
+    <!-- Spark -->
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M54,22m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"/>
+    <!-- Highlight -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3"
+        android:pathData="M42,52m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"/>
+</vector>
+

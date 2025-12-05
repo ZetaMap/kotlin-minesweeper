@@ -1,58 +1,96 @@
-# kotlin-minesweeper
-Minesweeper... in Kotlin... using Compose... with cool animations. =)
+# 💣 Minesweeper - Kotlin Multiplatform
 
+Un jeu de Démineur moderne construit avec Kotlin et Jetpack Compose Multiplatform, avec des animations cool !
 
-### Build and Run Android Application
+## 🎮 Fonctionnalités
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+- **Multiplateforme** : Fonctionne sur Desktop (Windows, macOS, Linux), Android, et Web (JS/WASM)
+- **4 niveaux de difficulté** : Facile, Moyen, Difficile, Expert
+- **Animations fluides** :
+  - Animation de révélation des cellules
+  - Tremblement de la grille en cas de défaite
+  - Animation de drapeau
+  - Explosion animée des mines
+  - Animations de victoire/défaite
 
-### Build and Run Desktop (JVM) Application
+## 📁 Structure du projet
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+```
+minesweeper/
+├── core/                          # Module partagé (logique + UI)
+│   └── src/commonMain/kotlin/
+│       └── fr/zetamap/minesweeper/
+│           ├── game/              # Logique du jeu
+│           ├── ui/                # Composants UI
+│           │   ├── components/    # Composants réutilisables
+│           │   ├── screens/       # Écrans
+│           │   └── theme/         # Thème et couleurs
+│           └── viewmodel/         # ViewModel
+│
+├── backends/                      # Backends spécifiques aux plateformes
+│   ├── desktop/                   # Desktop (JVM)
+│   ├── android/                   # Android
+│   └── web/                       # Web (JS + WASM)
+│
+└── gradle/                        # Configuration Gradle
+```
 
-### Build and Run Web Application
+## 🚀 Lancement
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
-    - on macOS/Linux
-      ```shell
-      ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-      ```
-    - on Windows
-      ```shell
-      .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-      ```
-- for the JS target (slower, supports older browsers):
-    - on macOS/Linux
-      ```shell
-      ./gradlew :composeApp:jsBrowserDevelopmentRun
-      ```
-    - on Windows
-      ```shell
-      .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-      ```
+### Desktop (Windows/macOS/Linux)
+```bash
+./gradlew :backends:desktop:run
+```
 
----
+### Android
+```bash
+./gradlew :backends:android:installDebug
+```
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+### Web (WASM)
+```bash
+./gradlew :backends:web:run
+```
+
+### Web (JavaScript)
+```bash
+./gradlew :backends:web:runJs
+```
+
+## 🎯 Contrôles
+
+- **Clic gauche** : Révéler une cellule
+- **Double-clic / Appui long** : Placer/retirer un drapeau
+- **Clic sur cellule révélée** : Chord (révéler les cellules adjacentes si tous les drapeaux sont placés)
+
+## 🛠️ Technologies
+
+- **Kotlin** 2.2.20
+- **Jetpack Compose Multiplatform** 1.9.1
+- **Gradle** 8.14
+
+## 📦 Build
+
+### Créer un exécutable Desktop
+```bash
+./gradlew :backends:desktop:packageDistributionForCurrentOS
+```
+
+### Créer un APK Android
+```bash
+./gradlew :backends:android:assembleRelease
+```
+
+### Créer une application Web
+```bash
+# WASM (recommandé)
+./gradlew :backends:web:wasmJsBrowserDistribution
+
+# JavaScript (fallback pour anciens navigateurs)
+./gradlew :backends:web:jsBrowserDistribution
+```
+
+## 📄 Licence
+
+MIT License
+
